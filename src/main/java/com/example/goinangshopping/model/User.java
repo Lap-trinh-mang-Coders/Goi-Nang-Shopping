@@ -3,6 +3,7 @@ package com.example.goinangshopping.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,7 +31,7 @@ public class User {
     private String email;
     @NotBlank
     private String fullname;
-    @NotBlank
+    @NotEmpty
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
