@@ -1,6 +1,5 @@
 package com.example.goinangshopping.service;
 
-
 import com.example.goinangshopping.model.User;
 import com.example.goinangshopping.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +8,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-
-// đây là class dùng để cung cấp thông tin người dùng (user details) cho Spring Security trong quá trình xác thực đăng nhập.
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
@@ -24,14 +21,16 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + email));
 
         return org.springframework.security.core.userdetails.User
-                .withUsername(user.getEmail())
+                .withUsername(user.getEmail()) // email làm username
                 .password(user.getPassword())
-                .roles(String.valueOf(user.getRoles()))
+                .authorities(
+                        user.getRoles().stream()
+                                .map(role -> "ROLE_" + role.name()) // ROLE_ADMIN, ROLE_CUSTOMER
+                                .toArray(String[]::new)
+                )
                 .build();
     }
 }
-
-

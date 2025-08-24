@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,34 +21,30 @@ public class User {
     private Long id;
 
     @NotBlank
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String username;
 
     @NotBlank
+    @Column(nullable = false)
     private String password;
 
     @NotBlank
+    @Column(nullable = false)
     private String phone;
 
     @NotBlank
     @Email
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
     @NotBlank
+    @Column(nullable = false)
     private String fullname;
 
-    // This is the new field to store user roles
-    @ElementCollection(fetch = FetchType.EAGER) // Fetch roles eagerly with the user
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated(EnumType.STRING) // Store enum names as strings (e.g., "ADMIN", "USER")
+    @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private Set<Roles> roles = new HashSet<>(); // Initialize to avoid NullPointerException
-
-    public enum Roles {
-        ADMIN,
-        USER,
-        GUEST
-    }
-
+    private Set<Roles> roles = new HashSet<>();
+    public enum Roles { ADMIN, USER, GUEST }
 }

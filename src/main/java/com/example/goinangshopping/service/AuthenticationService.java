@@ -47,31 +47,41 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
+
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
-
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String token = jwtUtils.generateToken(userDetails);
-        String role = jwtUtils.extractRole(token);
-        return new LoginResponse(token, role);
 
+        // Lấy email từ DB để chắc chắn đúng
+        String email = user.getEmail();
+        String roles = userDetails.getAuthorities().stream()
+                .map(auth -> auth.getAuthority()) // ROLE_ADMIN, ROLE_CUSTOMER
+                .collect(java.util.stream.Collectors.joining(","));
+
+        String token = jwtUtils.generateToken(email, roles);
+
+        return new LoginResponse(token, roles);
     }
 
     public RegisterResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new AppException(ErrorCode.EMAIL_INVALID);
         }
-        // ✅ Kiểm tra password và confirmPassword
+
         if (!request.getPassword().equals(request.getConfirmPassword())) {
-            throw new AppException(ErrorCode.PASSWORD_CONFIRM_NOT_MATCH); // bạn có thể định nghĩa mã lỗi này trong ErrorCode
+            throw new AppException(ErrorCode.PASSWORD_CONFIRM_NOT_MATCH);
         }
+
         User user = User.builder()
+                .username(request.getUsername())
                 .fullname(request.getFullName())
                 .email(request.getEmail())
                 .phone(request.getPhone())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .roles(Collections.singleton(User.Roles.GUEST))
+                .roles((request.getRoles() == null || request.getRoles().isEmpty())
+                        ? Collections.singleton(User.Roles.GUEST)
+                        : request.getRoles())
                 .build();
 
         userRepository.save(user);
