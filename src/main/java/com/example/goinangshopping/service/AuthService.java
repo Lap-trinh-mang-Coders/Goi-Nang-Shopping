@@ -2,7 +2,9 @@ package com.example.goinangshopping.service;
 
 import com.example.goinangshopping.dto.request.LoginRequest;
 import com.example.goinangshopping.dto.request.RegisterRequest;
-import com.example.goinangshopping.dto.response.JwtResponse;
+import com.example.goinangshopping.dto.response.LoginResponse;
+import com.example.goinangshopping.dto.response.RegisterResponse;
+import com.example.goinangshopping.model.ActionStatus;
 import com.example.goinangshopping.jwt.JwtUtils;
 import com.example.goinangshopping.model.Role;
 import com.example.goinangshopping.model.User;
@@ -12,7 +14,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,15 @@ public class AuthService {
     private AuthenticationManager authenticationManager;
 
     // Dang ki thanh vien moi:
-    public User register(RegisterRequest userRequest) {
+    public RegisterResponse register(RegisterRequest userRequest) {
+        if (userRepository.existsByUsername(userRequest.getUsername())) {
+            System.out.println(userRequest.getUsername() + " is already exist");
+            return new RegisterResponse(
+                    ActionStatus.ERROR,
+                    userRequest.getUsername() + " is already exist",
+                    null
+            );
+        }
         User user = new User();
         user.setUsername(userRequest.getUsername());
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
@@ -37,11 +46,16 @@ public class AuthService {
         user.setEmail(userRequest.getEmail());
         user.setPhone(userRequest.getPhone());
         user.getRoles().add(Role.USER);
-        return userRepository.save(user);
+        userRepository.save(user);
+        return new RegisterResponse(
+                ActionStatus.SUCCESS,
+                user.getUsername() + " is registered Successfully!",
+                user.getUsername()
+        );
     }
 
     // Dang nhap tai khoan:
-    public JwtResponse login(LoginRequest loginRequest) {
+    public LoginResponse login(LoginRequest loginRequest) {
         // Tao xac thuc authentication:
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
@@ -52,7 +66,7 @@ public class AuthService {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         // Tao jwt:
         String jwt = jwtUtils.generateToken(authentication);
-        return new JwtResponse(jwt,
+        return new LoginResponse(jwt,
             userDetails.getUsername(),
             userDetails.getEmail(),
             userDetails.getAuthorities()

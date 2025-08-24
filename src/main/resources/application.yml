@@ -22,3 +22,5 @@ jwt:
   expiration:
     ms: 43400000
 
+secret:
+  key1: "BeConfident"
