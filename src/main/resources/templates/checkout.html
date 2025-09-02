@@ -1,0 +1,75 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Thanh toán - Gọi Nắng Coffee</title>
+    <link rel="stylesheet" href="assets/style.css"/>
+</head>
+<body>
+
+<main class="container">
+    <h2>Thanh toán</h2>
+    <div class="alert"></div>
+    <div class="grid cols-2">
+        <div class="card">
+            <h3>Đơn hàng của bạn</h3>
+
+            <p class="empty">Giỏ hàng đang trống.</p>
+
+            <form method="post">
+                <table class="table">
+                    <tr><th>Menu</th><th>Giá</th><th>Sl</th><th>Thành tiền</th></tr>
+
+                    <tr>
+                        <td></td>
+                        <td>$</td>
+                        <td style="max-width:90px"><input type="number" name="qty[]" value="" min="0"/></td>
+                        <td>$</td>
+                    </tr>
+
+                    <tr><td colspan="3" style="text-align:right"><b>Tổng</b></td><td><b>$</b></td></tr>
+                </table>
+                <div style="margin-top:10px">
+                    <button class="btn" type="submit" name="update_cart" value="1">Cập nhật đơn hàng</button>
+                    <a class="btn" href="products.php">Tiếp tục gọi món</a>
+                </div>
+            </form>
+
+        </div>
+        <div class="card">
+            <h3>Thông tin thanh toán</h3>
+            <form method="post">
+                <div class="form-row">
+                    <div>
+                        <label>Họ và tên</label>
+                        <input name="fullname" value="" required/>
+                    </div>
+                    <div>
+                        <label>Số điện thoại</label>
+                        <input name="phone" value="" required/>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div>
+                        <label>Email</label>
+                        <input type="email" name="email" value="" required/>
+                    </div>
+                    <div>
+                        <label>Địa chỉ</label>
+                        <input name="address" placeholder="Tên đường, Thành phố"/>
+                    </div>
+                </div>
+                <div style="margin-top:12px">
+                    <button class="btn cta" type="submit" name="place_order" value="1" ></button>
+                    <a class="btn" href="user.php">Trở về trang Người dùng</a>
+                </div>
+            </form>
+            <p class="small">Thanh toán demo (không có cổng thanh toán thực sự). Đơn hàng được lưu vào SQLite.</p>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

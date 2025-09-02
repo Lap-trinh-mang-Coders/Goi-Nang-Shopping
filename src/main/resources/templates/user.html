@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Người dùng - Gọi Nắng Coffee</title>
+    <link rel="stylesheet" href="assets/style.css"/>
+</head>
+<body>
+
+<main class="container">
+    <div class="grid cols-2">
+        <div class="card">
+            <h3>Thông tin người dùng</h3>
+            <div class="alert"></div>
+
+            <form method="post">
+                <div class="form-row">
+                    <div>
+                        <label>Username (read-only)</label>
+                        <input value="" disabled/>
+                    </div>
+                    <div>
+                        <label>Mật khẩu</label>
+                        <input type="password" name="password" placeholder="New password"/>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div>
+                        <label>Họ và tên</label>
+                        <input name="fullname" value=""/>
+                    </div>
+                    <div>
+                        <label>Số điện thoại</label>
+                        <input name="phone" value=""/>
+                    </div>
+                </div>
+                <div>
+                    <label>Email</label>
+                    <input type="email" name="email" value=""/>
+                </div>
+                <div style="margin-top:12px">
+                    <button class="btn cta" type="submit" name="save_profile" value="1">Lưu</button>
+                    <a class="btn" href="index.php">Trở về Trang chủ</a>
+                    <button class="btn" type="submit" name="logout" value="1">Đăng xuất</button>
+                </div>
+            </form>
+
+            <p class="small">Hãy tạo một tài khoản hoặc đăng nhập để sử dụng dịch vụ của chúng tôi.</p>
+            <div class="alert"></div>
+            <form method="post">
+                <label>Username</label>
+                <input name="username" value="demo" required/>
+                <label>Mật khẩu</label>
+                <input type="password" name="password" value="demo123" required/>
+                <div style="margin-top:12px">
+                    <button class="btn cta" type="submit" name="login" value="1">Đăng nhập</button>
+                    <a class="btn" href="checkout.php">Thanh toán</a>
+                </div>
+            </form>
+
+        </div>
+        <div class="card">
+            <h3>Đơn hàng gần đây</h3>
+
+        </div>
+    </div>
+</main>
+
+</body>
+</html>
