@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Thanh toán</title>
+    <!-- đổi từ style.css sang payment.css -->
+    <link rel="stylesheet" href="payment.css">
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <h1>Thanh toán</h1>
+        <label>Họ & tên <input type="text" placeholder="Nguyen Van A" /></label>
+        <label>Số thẻ <input type="text" placeholder="1234 5678 9012 3456" /></label>
+        <div class="row">
+            <div><label>Ngày hết hạn <input type="text" placeholder="MM/YY" /></label></div>
+            <div><label>CVV <input type="password" placeholder="123" /></label></div>
+        </div>
+        <label>Địa chỉ giao hàng <input type="text" placeholder="Số nhà, đường, quận..." /></label>
+        <button class="pay-btn">Thanh toán</button>
+    </div>
+
+    <div class="card summary">
+        <h1 style="font-size:18px">Tổng đơn hàng</h1>
+        <div class="line"><span>Giỏ hàng (2 món)</span><span>₫1.200.000</span></div>
+        <div class="line"><span>Phí vận chuyển</span><span>₫30.000</span></div>
+        <div class="line total"><span>Tổng cộng</span><span>₫1.230.000</span></div>
+    </div>
+</div>
+</body>
+</html>
